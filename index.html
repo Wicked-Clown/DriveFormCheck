@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DriveFormCheck — DVLA Medical Licence Paperwork Review</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --bg-alt: #16213a;
+    --card: #1a2740;
+    --border: #2c3b56;
+    --text: #e4e9f2;
+    --text-dim: #a3b0c7;
+    --accent: #4f7cff;
+    --accent-dim: #2c4a8f;
+    --good: #3ecf8e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+  header {
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-alt);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; }
+  .logo { font-weight: 700; font-size: 1.2rem; letter-spacing: -0.02em; }
+  .logo span { color: var(--accent); }
+  .tag { font-size: 0.8rem; color: var(--text-dim); border: 1px solid var(--border); padding: 4px 10px; border-radius: 20px; }
+
+  .hero { padding: 64px 0 40px; }
+  .hero h1 { font-size: 2.1rem; line-height: 1.25; margin: 0 0 18px; max-width: 680px; }
+  .hero p.lead { font-size: 1.1rem; color: var(--text-dim); max-width: 620px; margin: 0 0 28px; }
+  .disclaimer-strip {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    border-left: 3px solid var(--accent-dim);
+    padding: 8px 14px;
+    margin: 0 0 32px;
+    max-width: 620px;
+  }
+
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 40px 0; }
+  .stat { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+  .stat .num { font-size: 1.6rem; font-weight: 700; color: var(--accent); }
+  .stat .label { font-size: 0.82rem; color: var(--text-dim); margin-top: 4px; }
+
+  section { padding: 40px 0; border-top: 1px solid var(--border); }
+  h2 { font-size: 1.4rem; margin: 0 0 20px; }
+
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .step { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+  .step .n { color: var(--accent); font-weight: 700; font-size: 0.85rem; margin-bottom: 8px; }
+  .step h3 { margin: 0 0 8px; font-size: 1.02rem; }
+  .step p { margin: 0; font-size: 0.92rem; color: var(--text-dim); }
+
+  .pricing { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .price-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 26px; }
+  .price-card.featured { border-color: var(--accent); }
+  .price-card h3 { margin: 0 0 4px; font-size: 1.1rem; }
+  .price-card .amount { font-size: 2rem; font-weight: 700; margin: 10px 0; }
+  .price-card ul { padding-left: 18px; margin: 14px 0; color: var(--text-dim); font-size: 0.92rem; }
+  .price-card li { margin-bottom: 6px; }
+
+  form.waitlist {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  form.waitlist input[type="email"] {
+    flex: 1;
+    min-width: 220px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+  }
+  button, .cta {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .note { font-size: 0.82rem; color: var(--text-dim); margin-top: 10px; }
+
+  .faq-item { border-bottom: 1px solid var(--border); padding: 16px 0; }
+  .faq-item h3 { margin: 0 0 6px; font-size: 1rem; }
+  .faq-item p { margin: 0; color: var(--text-dim); font-size: 0.93rem; }
+
+  footer { padding: 30px 0 60px; color: var(--text-dim); font-size: 0.8rem; }
+  footer .legal { max-width: 680px; }
+
+  @media (max-width: 720px) {
+    .stats, .steps, .pricing { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo">Drive<span>FormCheck</span></div>
+    <div class="tag">Coming soon — join the waitlist</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <h1>Reduce the risk of your DVLA medical application being sent back — before it costs you another 8 weeks.</h1>
+    <p class="lead">A second, independent check of your DVLA medical questionnaire before you post it. We can't speed up your GP or DVLA's queue — nobody can. What we can do is close off the one delay that's actually within your control: applications bounced back for missing or inconsistent information.</p>
+    <div class="disclaimer-strip">
+      DriveFormCheck is an independent paperwork-review service. We are not DVLA, not affiliated with DVLA, and we do not provide medical or legal advice. We check completeness and consistency against DVLA's own published guidance — we do not influence or guarantee DVLA's decision.
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="num">71.4</div><div class="label">working days — peak average wait for car medical cases, Feb 2026</div></div>
+      <div class="stat"><div class="num">45.1</div><div class="label">working days — average wait for HGV/PCV medical cases, May 2026</div></div>
+      <div class="stat"><div class="num">47%</div><div class="label">of in-progress medical applications waiting on third-party (GP/consultant) information, per NAO — the rest are stuck on paperwork or caseworker capacity</div></div>
+    </div>
+  </div>
+
+  <section>
+    <h2>Who this is for</h2>
+    <p style="color:var(--text-dim); max-width:640px;">HGV, PCV and taxi/PHV drivers who can't legally work while a medical decision is pending — and any driver renewing or reinstating a licence after a condition such as epilepsy, diabetes, a cardiac condition, a visual impairment, or a sleep condition. If you've lost income waiting on DVLA before, this is built for you.</p>
+  </section>
+
+  <section>
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="n">STEP 1</div>
+        <h3>Tell us your situation</h3>
+        <p>Licence category, condition type, and where you are in the process — 5 minutes.</p>
+      </div>
+      <div class="step">
+        <div class="n">STEP 2</div>
+        <h3>Send us your draft paperwork</h3>
+        <p>Upload your completed questionnaire and any supporting letters before you post them to DVLA.</p>
+      </div>
+      <div class="step">
+        <div class="n">STEP 3</div>
+        <h3>Get a marked-up review back</h3>
+        <p>Within 24 hours: gaps flagged, common rejection triggers checked, before DVLA ever sees it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Pricing</h2>
+    <div class="pricing">
+      <div class="price-card">
+        <h3>Paperwork Review</h3>
+        <div class="amount">£39</div>
+        <ul>
+          <li>Full completeness check of your questionnaire</li>
+          <li>Marked-up copy returned within 24 hours</li>
+          <li>Plain-English summary of anything missing</li>
+        </ul>
+        <button class="cta buy-btn" data-plan="Paperwork Review (£39)" style="width:100%;">Get this review — £39</button>
+      </div>
+      <div class="price-card featured">
+        <h3>Review + Chase Pack</h3>
+        <div class="amount">£69</div>
+        <ul>
+          <li>Everything in Paperwork Review</li>
+          <li>What DVLA is likely to query, explained</li>
+          <li>Template chase letter for use once you pass 90 working days</li>
+        </ul>
+        <button class="cta buy-btn" data-plan="Review + Chase Pack (£69)" style="width:100%;">Get this review — £69</button>
+      </div>
+    </div>
+    <p id="buy-feedback" class="note" style="display:none;"></p>
+  </section>
+
+  <section>
+    <h2>Join the waitlist</h2>
+    <form class="waitlist" action="https://formspree.io/f/xjgqpdka" method="POST">
+      <input type="email" name="email" placeholder="you@email.com" required>
+      <input type="hidden" name="_subject" value="New DriveFormCheck waitlist signup">
+      <div style="width:100%;">
+        <label style="display:flex; gap:10px; align-items:flex-start; margin-top:4px; font-size:0.85rem; color:var(--text-dim); max-width:560px;">
+          <input type="checkbox" name="non_affiliation_ack" required style="margin-top:3px;">
+          I understand DriveFormCheck is an independent paperwork proofreading service and is not affiliated with DVLA.
+        </label>
+      </div>
+      <button type="submit">Notify me at launch</button>
+    </form>
+    <p class="note">This checkbox (unticked by default, required) now actually gates form submission since it's inside the &lt;form&gt; tags — it wasn't in the original markup. Keep the same pattern directly above the Stripe "Pay" button once checkout is added — do the same at point of payment, not just at waitlist signup.</p>
+  </section>
+
+  <section>
+    <h2>Questions</h2>
+    <div class="faq-item">
+      <h3>Are you affiliated with DVLA?</h3>
+      <p>No. We are an independent service and have no relationship with DVLA, the DVSA, or the DfT.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Will this speed up my DVLA decision?</h3>
+      <p>Not directly, and we won't pretend otherwise. Most of the wait is DVLA caseworker capacity and time spent waiting on your GP or consultant — we can't touch either of those. What we can do is stop your application losing extra weeks to a second, avoidable round trip caused by something missing or inconsistent on your side.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is this medical or legal advice?</h3>
+      <p>No. We check paperwork completeness against DVLA's own published requirements. For medical guidance, speak to your GP or consultant. For a revoked or refused licence, an appeal requires independent legal advice.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="legal">
+      DriveFormCheck is a validation-stage concept and is not yet a live paid service. Final terms subject to change. Not affiliated with the Driver and Vehicle Licensing Agency (DVLA).
+    </div>
+  </footer>
+</div>
+
+<script>
+  // Fake-door test: measures real purchase intent, not just email capture.
+  // Replace this with an actual Stripe Checkout redirect once payments are set up.
+  document.querySelectorAll('.buy-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var plan = btn.getAttribute('data-plan');
+      var feedback = document.getElementById('buy-feedback');
+      feedback.style.display = 'block';
+      feedback.textContent = 'Checkout for "' + plan + '" isn\'t live yet — join the waitlist above and you\'ll be first in line when it opens.';
+      feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // TODO: log this click event (plan name + timestamp) to whatever analytics
+      // you're using — this click, not the waitlist signup, is the real signal
+      // of purchase intent worth measuring.
+    });
+  });
+</script>
+
+</body>
+</html>
