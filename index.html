@@ -127,7 +127,7 @@
 <header>
   <div class="wrap nav">
     <div class="logo">Drive<span>FormCheck</span></div>
-    <div class="tag">Coming soon — join the waitlist</div>
+    <div class="tag">Independent DVLA paperwork review</div>
   </div>
 </header>
 
@@ -201,7 +201,8 @@
   </section>
 
   <section>
-    <h2>Join the waitlist</h2>
+    <h2>Not ready to submit paperwork yet?</h2>
+    <p style="color:var(--text-dim); max-width:560px; margin:0 0 18px;">If you're still waiting on a GP letter or gathering documents, leave your email and we'll follow up when you're ready — no obligation.</p>
     <form class="waitlist" id="waitlist-form" action="https://formspree.io/f/xjgqpdka" method="POST">
       <input type="email" name="email" placeholder="you@email.com" required>
       <input type="hidden" name="_subject" value="New DriveFormCheck waitlist signup">
@@ -211,7 +212,7 @@
           I understand DriveFormCheck is an independent paperwork proofreading service and is not affiliated with DVLA.
         </label>
       </div>
-      <button type="submit">Notify me at launch</button>
+      <button type="submit">Keep me updated</button>
     </form>
     <p id="waitlist-feedback" class="note" style="display:none;"></p>
   </section>
@@ -260,7 +261,7 @@
           waitlistForm.style.display = 'none';
           waitlistFeedback.style.display = 'block';
           waitlistFeedback.style.color = 'var(--good)';
-          waitlistFeedback.textContent = "You're on the list — we'll email you the moment reviews open.";
+          waitlistFeedback.textContent = "You're on the list — we'll follow up when the time's right.";
         } else {
           throw new Error('Submission failed');
         }
@@ -270,7 +271,7 @@
         waitlistFeedback.style.color = 'var(--text-dim)';
         waitlistFeedback.textContent = "Something went wrong submitting that — please try again in a moment.";
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Notify me at launch';
+        submitBtn.textContent = 'Keep me updated';
       });
   });
 </script>
