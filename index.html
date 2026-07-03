@@ -124,22 +124,22 @@
 
 <div class="wrap">
   <div class="hero">
-    <h1>Reduce the risk of your DVLA medical application being sent back — before it costs you another 8 weeks.</h1>
-    <p class="lead">A second, independent check of your DVLA medical questionnaire before you post it. We can't speed up your GP or DVLA's queue — nobody can. What we can do is close off the one delay that's actually within your control: applications bounced back for missing or inconsistent information.</p>
+    <h1>Reduce the risk of your DVLA medical application being returned for missing or inconsistent information.</h1>
+    <p class="lead">A second, independent check of your DVLA medical questionnaire before you post it — DVLA licence medical decisions have been taking well over two months on average. We can't speed up your GP or DVLA's queue — nobody can. What we can do is close off the one delay that's actually within your control: applications bounced back for missing or inconsistent information.</p>
     <div class="disclaimer-strip">
       DriveFormCheck is an independent paperwork-review service. We are not DVLA, not affiliated with DVLA, and we do not provide medical or legal advice. We check completeness and consistency against DVLA's own published guidance — we do not influence or guarantee DVLA's decision.
-    </div>
-
-    <div class="stats">
-      <div class="stat"><div class="num">71.4</div><div class="label">working days — peak average wait for car medical cases, Feb 2026</div></div>
-      <div class="stat"><div class="num">45.1</div><div class="label">working days — average wait for HGV/PCV medical cases, May 2026</div></div>
-      <div class="stat"><div class="num">47%</div><div class="label">of in-progress medical applications waiting on third-party (GP/consultant) information, per NAO — the rest are stuck on paperwork or caseworker capacity</div></div>
     </div>
   </div>
 
   <section>
     <h2>Who this is for</h2>
     <p style="color:var(--text-dim); max-width:640px;">HGV, PCV and taxi/PHV drivers who can't legally work while a medical decision is pending — and any driver renewing or reinstating a licence after a condition such as epilepsy, diabetes, a cardiac condition, a visual impairment, or a sleep condition. If you've lost income waiting on DVLA before, this is built for you.</p>
+  </section>
+
+  <section>
+    <h2>How reviews are done</h2>
+    <p style="color:var(--text-dim); max-width:640px;">Every review is completed manually against DVLA's published guidance — not by an algorithm making decisions on your behalf. We simply look for omissions, inconsistencies, and the kinds of paperwork issues that most commonly send applications back for a second round. We don't replace medical or legal advice, and we don't guarantee DVLA's decision — only a reduction in the odds of a completeness-driven delay.</p>
+    <p style="color:var(--text-dim); max-width:640px; font-size:0.9rem; margin-top:14px;">For context: DVLA's own published figures show car medical decisions have recently averaged over 70 working days, and HGV/PCV cases over 45 — and government data shows a significant share of that time is spent waiting on GPs and consultants, which no paperwork review can fix. What we're built to reduce is the separate, avoidable delay caused by an incomplete first submission.</p>
   </section>
 
   <section>
@@ -184,6 +184,7 @@
           <li>What DVLA is likely to query, explained</li>
           <li>Template chase letter for use once you pass 90 working days</li>
         </ul>
+        <p style="font-size:0.85rem; color:var(--good); margin:0 0 14px;">We aim to turn every review around within 24 hours. If we can't, we'll always tell you and offer a refund — we won't leave you waiting without word.</p>
         <button class="cta buy-btn" data-plan="Review + Chase Pack (£69)" style="width:100%;">Get this review — £69</button>
       </div>
     </div>
@@ -192,7 +193,7 @@
 
   <section>
     <h2>Join the waitlist</h2>
-    <form class="waitlist" action="https://formspree.io/f/xjgqpdka" method="POST">
+    <form class="waitlist" id="waitlist-form" action="https://formspree.io/f/xjgqpdka" method="POST">
       <input type="email" name="email" placeholder="you@email.com" required>
       <input type="hidden" name="_subject" value="New DriveFormCheck waitlist signup">
       <div style="width:100%;">
@@ -203,6 +204,7 @@
       </div>
       <button type="submit">Notify me at launch</button>
     </form>
+    <p id="waitlist-feedback" class="note" style="display:none;"></p>
     <p class="note">This checkbox (unticked by default, required) now actually gates form submission since it's inside the &lt;form&gt; tags — it wasn't in the original markup. Keep the same pattern directly above the Stripe "Pay" button once checkout is added — do the same at point of payment, not just at waitlist signup.</p>
   </section>
 
@@ -243,6 +245,40 @@
       // you're using — this click, not the waitlist signup, is the real signal
       // of purchase intent worth measuring.
     });
+  });
+
+  // Waitlist form: submit via fetch so the person never leaves the page.
+  // Formspree returns JSON (instead of redirecting) when sent an Accept: application/json header.
+  var waitlistForm = document.getElementById('waitlist-form');
+  var waitlistFeedback = document.getElementById('waitlist-feedback');
+  waitlistForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var submitBtn = waitlistForm.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting…';
+
+    fetch(waitlistForm.action, {
+      method: 'POST',
+      body: new FormData(waitlistForm),
+      headers: { 'Accept': 'application/json' }
+    })
+      .then(function (response) {
+        if (response.ok) {
+          waitlistForm.style.display = 'none';
+          waitlistFeedback.style.display = 'block';
+          waitlistFeedback.style.color = 'var(--good)';
+          waitlistFeedback.textContent = "You're on the list — we'll email you the moment reviews open.";
+        } else {
+          throw new Error('Submission failed');
+        }
+      })
+      .catch(function () {
+        waitlistFeedback.style.display = 'block';
+        waitlistFeedback.style.color = 'var(--text-dim)';
+        waitlistFeedback.textContent = "Something went wrong submitting that — please try again in a moment.";
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Notify me at launch';
+      });
   });
 </script>
 
