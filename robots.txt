@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /thank-you.html
+Disallow: /upload-received.html
+
+Sitemap: https://driveformcheck.co.uk/sitemap.xml
