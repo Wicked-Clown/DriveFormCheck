@@ -174,7 +174,7 @@
           <li>Marked-up copy returned within 24 hours</li>
           <li>Plain-English summary of anything missing</li>
         </ul>
-        <button class="cta buy-btn" data-plan="Paperwork Review (£39)" style="width:100%;">Get this review — £39</button>
+        <a href="https://buy.stripe.com/5kQaEQ2QNf1Fe8931b73G01" class="cta" style="width:100%; text-align:center;">Get this review — £39</a>
       </div>
       <div class="price-card featured">
         <h3>Review + Chase Pack</h3>
@@ -185,10 +185,10 @@
           <li>Template chase letter for use once you pass 90 working days</li>
         </ul>
         <p style="font-size:0.85rem; color:var(--good); margin:0 0 14px;">We aim to turn every review around within 24 hours. If we can't, we'll always tell you and offer a refund — we won't leave you waiting without word.</p>
-        <button class="cta buy-btn" data-plan="Review + Chase Pack (£69)" style="width:100%;">Get this review — £69</button>
+        <a href="https://buy.stripe.com/9B628k4YV7zdc0159j73G00" class="cta" style="width:100%; text-align:center;">Get this review — £69</a>
       </div>
     </div>
-    <p id="buy-feedback" class="note" style="display:none;"></p>
+
   </section>
 
   <section>
@@ -225,27 +225,12 @@
 
   <footer>
     <div class="legal">
-      DriveFormCheck is a validation-stage concept and is not yet a live paid service. Final terms subject to change. Not affiliated with the Driver and Vehicle Licensing Agency (DVLA).
+      DriveFormCheck is an independent paperwork-review service. Not affiliated with the Driver and Vehicle Licensing Agency (DVLA).
     </div>
   </footer>
 </div>
 
 <script>
-  // Fake-door test: measures real purchase intent, not just email capture.
-  // Replace this with an actual Stripe Checkout redirect once payments are set up.
-  document.querySelectorAll('.buy-btn').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var plan = btn.getAttribute('data-plan');
-      var feedback = document.getElementById('buy-feedback');
-      feedback.style.display = 'block';
-      feedback.textContent = 'Checkout for "' + plan + '" isn\'t live yet — join the waitlist above and you\'ll be first in line when it opens.';
-      feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      // TODO: log this click event (plan name + timestamp) to whatever analytics
-      // you're using — this click, not the waitlist signup, is the real signal
-      // of purchase intent worth measuring.
-    });
-  });
-
   // Waitlist form: submit via fetch so the person never leaves the page.
   // Formspree returns JSON (instead of redirecting) when sent an Accept: application/json header.
   var waitlistForm = document.getElementById('waitlist-form');
